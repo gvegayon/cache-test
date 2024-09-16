@@ -15,7 +15,7 @@ jobs:
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: README.md
-          key: ${{ runner.os }}-
+          key: ${{ runner.os }}-${{ hashFiles( README.md ) }}
 
       - name: Has it changed
         if: steps.cache.outputs.cache-hit != 'true'
