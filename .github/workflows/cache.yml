@@ -1,0 +1,25 @@
+name: Cache example
+
+on: push
+
+jobs:
+  caching:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Loading
+        uses: actions/checkout@v4
+
+      - name: Cache
+        uses: actions/cache@v4.0.2
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore
+          path: README.md
+          id: cache
+
+      - name: Has it changed
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: echo "No cache hit"
+
+      - name: Hasnt changed
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: echo "Yes cache hit"
