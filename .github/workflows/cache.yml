@@ -11,10 +11,11 @@ jobs:
 
       - name: Cache
         uses: actions/cache@v4.0.2
+        id: cache
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: README.md
-          id: cache
+          key: ${{ runner.os }}-
 
       - name: Has it changed
         if: steps.cache.outputs.cache-hit != 'true'
