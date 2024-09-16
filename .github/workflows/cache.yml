@@ -17,10 +17,10 @@ jobs:
           path: README.md
           key: ${{ runner.os }}-${{ hashFiles( README.md ) }}
 
-      - name: Has it changed
+      - name: No cache hit
         if: steps.cache.outputs.cache-hit != 'true'
         run: echo "No cache hit"
 
-      - name: Hasnt changed
+      - name: Yes cache hit
         if: steps.cache.outputs.cache-hit == 'true'
         run: echo "Yes cache hit"
