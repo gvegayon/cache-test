@@ -23,11 +23,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,12 +35,26 @@ jobs:
         with:
           # Upload entire repository
           path: '.'
+
+  # Single deploy job since we're just deploying
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         if: ${{ github.event_name != 'pull_request' }}
         id: deployment
         uses: actions/deploy-pages@v4
 
+  post-comment:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
       - name: Post comment preview
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-            gh pr comment ${{ github.event.number }} --body "Preview: ${{ steps.deployment.outputs.page_url }}"
+          gh pr comment ${{ github.event.number }} --body \
+            "Preview: ${{ steps.deployment.outputs.page_url }}"
