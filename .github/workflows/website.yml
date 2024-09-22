@@ -53,6 +53,8 @@ jobs:
   post-comment:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Post comment preview
         if: ${{ github.event_name == 'pull_request' }}
