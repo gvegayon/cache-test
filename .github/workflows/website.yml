@@ -26,7 +26,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      artifact-url: ${{ steps.upload.outputs.artifact-url }}
+      page_artifact_id: ${{ steps.upload.outputs.artifact_id }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,7 +34,7 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Upload artifact
         id: upload
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
           # Upload entire repository
           path: '.'
@@ -69,4 +69,4 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           gh pr comment ${{ github.event.number }} --body \
-            "Thank you for your contribution :rocket:! Your page is ready to preview :point_right: [here](${{ needs.build.outputs.artifact-url }}) :point_left:!"
+            "Thank you for your contribution :rocket:! Your page is ready to preview :point_right: [here](${{github.repositoryUrl}}/actions/runs/${{ github.run_id }}/${{ needs.build.outputs.page_artifact_id }}) :point_left:!"
