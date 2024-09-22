@@ -15,7 +15,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  pull-requests: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -54,6 +53,9 @@ jobs:
   post-comment:
     needs: build
     runs-on: ubuntu-latest
+    permissions: 
+        contents: read
+        pull-requests: write
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -64,4 +66,4 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           gh pr comment ${{ github.event.number }} --body \
-            "Preview: ${{ steps.deployment.outputs.page_url }}"
+            "Thank you for your contribution :rocket:! Your page is ready to preview :point_right: [here](${{ needs.build.outputs.artifact-url }}) :point_left:!"
