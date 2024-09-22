@@ -69,4 +69,4 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           gh pr comment ${{ github.event.number }} --body \
-            "Thank you for your contribution :rocket:! Your page is ready to preview :point_right: [here](${{github.repositoryUrl}}/actions/runs/${{ github.run_id }}/${{ needs.build.outputs.page_artifact_id }}) :point_left:!"
+            "Thank you for your contribution :rocket:! Your page is ready to preview :point_right: [here](https://github.com/${{github.repository}}/actions/runs/${{ github.run_id }}/artifacts/${{ needs.build.outputs.page_artifact_id }}) :point_left:!"
